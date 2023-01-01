@@ -121,8 +121,8 @@ def submit(request, course_id):
     choices =  extract_answers(request)
     print(choices)
     enrollment = Enrollment.objects.get(user=user, course=course, mode='honor')
-    submission = Submission.objects.create(enrollment=enrollment, mode='honor')
-    submission.chocies = choices
+    submission = Submission.objects.create(enrollment=enrollment)
+    submission.choices.set(choices) 
     submission_id = submission.id
     
     return HttpResponseRedirect(reverse(viewname='onlinecourse:show_exam_result', args=(course_id, submission_id)))
@@ -149,7 +149,7 @@ def show_exam_result(request, course_id, submission_id):
     course = get_object_or_404(Course, pk=course_id)
     submission = get_object_or_404(Course, pk=submission_id)
     choice_ids = submission.chocies
-    return 
+    return redirect('onlinecourse:index')
 
 
 
