@@ -57,17 +57,41 @@
 			  <div class="card-body">
                 
                 {% for choice in question.choice_set.all %}  
-                    <p class="card-text">  
+                    <p class="card-text"> <span 
                     {% for choice_selected in choices.all %}
                                                
                         {% if choice.id  == choice_selected.id %}
-                        
-                       
+                            style="font-weight: bold;"
+                            {% if choice.is_correct %}
+                                class="text-success"
+                            {% else %}
+                                class="text-danger"
+                            {% endif %}
                        
                         {% endif %}
                        
-                    {% endfor %}          
-                    {{ choice.choice_text }}.</p>
+                    {% endfor %}
+                    {% if choice.is_correct and choice.id not in choicesID %}
+                        class="text-warning"      
+                    {% endif %}
+                    >
+
+                    {% for choice_selected in choices.all %}
+                                               
+                        {% if choice.id  == choice_selected.id %}
+                            {% if choice.is_correct %}
+                               Correct Answer: 
+                            {% else %}
+                               Incorrect Answer:
+                            {% endif %}
+                       
+                        {% endif %}                      
+                    {% endfor %}
+                    {% if choice.is_correct and choice.id not in choicesID %}
+                        Not Selected:       
+                    {% endif %}
+                    
+                    {{ choice.choice_text }}. </span> </p>
                         
 				{% endfor %}
 			  </div>
